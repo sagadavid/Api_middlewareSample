@@ -19,7 +19,7 @@ app.UseAuthorization();
 //    Console.WriteLine($"use.console2");
 //    //await next();
 //});
-app.Map("/usingmapbranch", builder =>
+app.Map("/map", builder =>
 {
     builder.Use(async (context, next) =>
     {
@@ -37,6 +37,13 @@ app.Map("/usingmapbranch", builder =>
         await context.Response.WriteAsync("Map.Run.context.response\n");
     });
 });
+app.MapWhen(context => 
+            context.Request.Query.ContainsKey("queryformapwhen"), 
+                    builder=>{builder.Run(async context =>
+                             {await context.Response.WriteAsync("Hello from the MapWhen branch.");
+});
+});
+
 //app.Run(async context =>
 //{
 //    Console.WriteLine($"Run.console");
